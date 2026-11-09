@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#315b48">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<title>Escudo Kids — Conhecimento hoje, saúde para o futuro</title>
+<style>
+:root{--green:#315b48;--green2:#47765d;--mint:#e8f0e8;--cream:#f7f7f0;--sand:#eee9dc;--ink:#263d32;--muted:#68766d;--line:#dce5dc;--white:#fff;--shadow:0 18px 50px rgba(38,61,50,.09);--radius:22px}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6}button,a{font:inherit}a{color:inherit;text-decoration:none}.wrap{width:min(1160px,calc(100% - 40px));margin:auto}
+header{position:sticky;top:0;z-index:20;background:rgba(247,247,240,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(220,229,220,.8)}
+.nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{display:flex;align-items:center;gap:11px;font-weight:850;letter-spacing:-.7px;font-size:1.35rem;color:var(--green)}.brand-mark{width:38px;height:38px;border-radius:13px;background:var(--green);display:grid;place-items:center;color:white;font-size:20px}.brand small{display:block;font-size:.57rem;letter-spacing:1.5px;font-weight:700;color:var(--muted);margin-top:-4px}.navlinks{display:flex;align-items:center;gap:23px;font-size:.88rem;color:#52645a}.navlinks a:hover{color:var(--green)}.nav-cta,.btn{border:0;border-radius:999px;background:var(--green);color:white;padding:12px 19px;font-weight:750;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.2s}.nav-cta:hover,.btn:hover{background:#244735;transform:translateY(-1px)}.menu{display:none;background:none;border:0;font-size:25px;color:var(--green)}
+.hero{padding:72px 0 65px;overflow:hidden;position:relative}.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:45px;align-items:center}.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--green2);font-size:.76rem;font-weight:850;letter-spacing:1.5px;text-transform:uppercase}.eyebrow:before{content:"";width:24px;height:2px;background:#91ad92}.hero h1{font-size:clamp(2.6rem,5vw,4.7rem);line-height:1.04;letter-spacing:-2.8px;margin:19px 0 20px;max-width:650px}.hero h1 em{font-style:normal;color:var(--green2)}.hero p{font-size:1.08rem;color:var(--muted);max-width:540px;margin:0 0 28px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap}.btn.secondary{background:transparent;color:var(--green);border:1px solid #b9cbbb}.btn.secondary:hover{background:var(--mint)}.hero-note{margin-top:23px;color:#7a867d;font-size:.8rem;display:flex;align-items:center;gap:8px}.hero-art{min-height:420px;border-radius:34px;background:linear-gradient(145deg,#e3ede1,#f1eadb);position:relative;display:grid;place-items:center;overflow:hidden}.orb{position:absolute;width:300px;height:300px;border-radius:50%;background:#d3e3d0;right:-50px;top:-85px}.sun{position:absolute;width:110px;height:110px;border-radius:50%;background:#e6cda0;right:55px;top:55px;opacity:.8}.plant{position:absolute;bottom:0;left:7%;font-size:9rem;transform:rotate(-8deg);opacity:.8}.hero-card{position:relative;background:rgba(255,255,255,.9);border:1px solid white;border-radius:24px;padding:26px;width:min(310px,78%);box-shadow:var(--shadow);z-index:2}.hero-card .leaf{font-size:2.4rem}.hero-card h3{margin:8px 0 4px;font-size:1.25rem}.hero-card p{font-size:.88rem;margin:0;color:var(--muted)}.mini-pills{display:flex;gap:7px;flex-wrap:wrap;margin-top:18px}.mini-pills span{background:var(--mint);color:var(--green);font-size:.72rem;padding:6px 10px;border-radius:999px;font-weight:700}
+.trust-strip{background:var(--green);color:#f6f7ef;padding:22px 0}.trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.trust-item{display:flex;align-items:center;gap:13px}.trust-item b{display:block;font-size:.9rem}.trust-item small{color:#d2dfd3;font-size:.76rem}.trust-icon{width:39px;height:39px;border-radius:13px;background:rgba(255,255,255,.12);display:grid;place-items:center;font-size:1.2rem}
+section{padding:78px 0}.section-head{max-width:650px;margin-bottom:34px}.section-head.center{text-align:center;margin-left:auto;margin-right:auto}.section-head h2{font-size:clamp(2rem,3.5vw,3rem);line-height:1.12;letter-spacing:-1.5px;margin:12px 0}.section-head p{color:var(--muted);margin:0}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.topic-card{background:white;border:1px solid var(--line);border-radius:var(--radius);padding:23px;min-height:218px;transition:.2s}.topic-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}.topic-icon{width:48px;height:48px;background:var(--mint);border-radius:16px;display:grid;place-items:center;font-size:1.45rem;margin-bottom:18px}.topic-card h3{font-size:1.02rem;margin:0 0 8px}.topic-card p{font-size:.86rem;color:var(--muted);margin:0}.text-link{display:inline-block;margin-top:16px;color:var(--green);font-size:.82rem;font-weight:800}
+.feature{background:#edf2e9}.feature-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:55px;align-items:center}.feature-visual{background:#dce9d9;border-radius:30px;min-height:390px;position:relative;overflow:hidden;display:grid;place-items:center}.feature-visual .big-icon{font-size:9rem;filter:drop-shadow(0 15px 10px rgba(49,91,72,.12))}.floating{position:absolute;background:white;padding:13px 16px;border-radius:16px;box-shadow:var(--shadow);font-size:.82rem;font-weight:750}.floating.one{top:35px;left:25px}.floating.two{bottom:35px;right:25px}.feature-copy h2{font-size:clamp(2rem,3.5vw,3rem);line-height:1.12;letter-spacing:-1.5px;margin:12px 0 17px}.feature-copy p{color:var(--muted)}.check-list{padding:0;list-style:none;margin:24px 0}.check-list li{display:flex;gap:11px;margin:13px 0;color:#506257;font-size:.93rem}.check-list li:before{content:"✓";width:23px;height:23px;flex:none;display:grid;place-items:center;background:#d8e7d7;border-radius:50%;color:var(--green);font-weight:900}
+.quiz-section{background:#fff}.quiz-box{background:var(--cream);border:1px solid var(--line);border-radius:28px;padding:32px;max-width:800px;margin:auto}.quiz-top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:20px}.quiz-top small{color:var(--muted);font-weight:750}.progress{height:7px;background:#e1e8df;border-radius:99px;overflow:hidden;margin-bottom:24px}.progress span{height:100%;width:0;background:var(--green2);display:block;transition:.25s}.question{font-size:1.25rem;font-weight:800;margin:0 0 18px}.answers{display:grid;gap:10px}.answer{padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:white;text-align:left;cursor:pointer;color:var(--ink)}.answer:hover{border-color:var(--green2);background:#f3f7f1}.answer.selected{border-color:var(--green);background:#e8f0e8}.quiz-controls{display:flex;justify-content:space-between;align-items:center;margin-top:23px;gap:12px}.quiz-controls button:disabled{opacity:.4;cursor:not-allowed}.quiz-result{display:none;background:#e7f0e5;border-radius:18px;padding:20px;margin-top:20px}.quiz-result strong{display:block;margin-bottom:5px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:18px}.info-panel{border-radius:24px;padding:28px;background:white;border:1px solid var(--line)}.info-panel.tinted{background:#f0eadc;border-color:#f0eadc}.info-panel h3{margin:0 0 9px}.info-panel p{color:var(--muted);margin:0}.info-panel .symbol{font-size:2rem;margin-bottom:14px}
+.product-preview{background:var(--green);color:white;border-radius:28px;padding:34px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:20px}.product-preview p{color:#d8e4d9;max-width:650px;margin:8px 0 0}.product-preview .btn{background:white;color:var(--green);white-space:nowrap}.product-preview .btn:hover{background:#e8f0e8}
+.sources{background:#edf2e9}.source-list{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.source{background:white;border:1px solid var(--line);padding:18px;border-radius:17px}.source b{display:block;font-size:.92rem}.source span{font-size:.77rem;color:var(--muted)}
+.faq{max-width:850px;margin:auto}.faq details{background:white;border:1px solid var(--line);border-radius:15px;padding:17px 20px;margin:10px 0}.faq summary{font-weight:800;cursor:pointer}.faq details p{color:var(--muted);margin:12px 0 0;font-size:.92rem}
+footer{background:#203d2d;color:#eef4ed;padding:40px 0 25px}.footer-grid{display:flex;justify-content:space-between;gap:30px;align-items:flex-start}.footer-brand{font-size:1.35rem;font-weight:850}.footer-grid p{max-width:480px;color:#c4d3c5;font-size:.86rem}.footer-bottom{border-top:1px solid rgba(255,255,255,.15);margin-top:28px;padding-top:18px;color:#b9cbbb;font-size:.75rem;display:flex;justify-content:space-between;gap:15px}
+.notice{font-size:.78rem;color:var(--muted);margin-top:18px}
+@media(max-width:900px){.navlinks{display:none;position:absolute;top:76px;left:0;right:0;background:var(--cream);padding:18px 25px 24px;border-bottom:1px solid var(--line);flex-direction:column;align-items:flex-start}.navlinks.open{display:flex}.menu{display:block}.nav-cta{display:none}.hero-grid,.feature-grid{grid-template-columns:1fr}.hero{padding-top:48px}.hero-art{min-height:340px}.cards{grid-template-columns:repeat(2,1fr)}.source-list{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:580px){.wrap{width:min(100% - 28px,1160px)}.hero h1{letter-spacing:-1.8px}.hero-art{min-height:300px}.trust-grid{grid-template-columns:1fr;gap:14px}.cards{grid-template-columns:1fr 1fr;gap:10px}.topic-card{padding:17px;min-height:205px}.topic-card p{font-size:.8rem}.split{grid-template-columns:1fr}.source-list{grid-template-columns:1fr 1fr}.product-preview{grid-template-columns:1fr;padding:25px}.product-preview .btn{justify-self:start}.quiz-box{padding:20px}.footer-grid,.footer-bottom{flex-direction:column}.feature-visual{min-height:300px}.plant{font-size:7rem}}
+</style>
+
+<style>
+.product-search-panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:25px;box-shadow:var(--shadow);margin:28px 0 30px}.search-label{display:block;font-weight:800;margin-bottom:9px}.search-row{display:flex;gap:10px}.search-row input,.product-form input,.product-form textarea,.product-form select{width:100%;border:1px solid #cbd8cc;border-radius:12px;padding:13px 14px;background:#fff;color:var(--ink);font:inherit;min-width:0}.search-row input:focus,.product-form input:focus,.product-form textarea:focus,.product-form select:focus{outline:3px solid #dcebdd;border-color:var(--green)}.search-help,.form-note{font-size:.84rem;color:var(--muted);margin:8px 0 0}.legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:19px}.status-pill{display:inline-flex;border-radius:999px;padding:7px 11px;font-size:.76rem;font-weight:750}.status-pill.green{background:#e3f3e6;color:#23633a}.status-pill.yellow{background:#fff3cc;color:#795600}.status-pill.red{background:#fde5e3;color:#9b2924}.status-pill.gray{background:#edf0ed;color:#58635b}.product-results-head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin:22px 0 12px}.product-results-head h3{margin:0}.add-product-toggle{border:0;background:none;cursor:pointer;font-weight:800}.product-results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.product-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px}.product-card h4{margin:0 0 7px;font-size:1.08rem}.product-card p{margin:8px 0;font-size:.9rem;color:#56645a;overflow-wrap:anywhere}.product-card .status-pill{margin-bottom:5px}.product-card a{color:var(--green);font-weight:750;text-decoration:underline}.empty-state{grid-column:1/-1;border:1px dashed #b9c9ba;border-radius:15px;padding:25px;text-align:center;color:var(--muted);background:rgba(255,255,255,.55)}.product-form{background:#f0f5ef;border:1px solid var(--line);border-radius:18px;padding:24px;margin-top:20px}.product-form[hidden]{display:none}.product-form h3{margin:0 0 5px}.product-form label{display:block;font-size:.88rem;font-weight:750;margin-top:14px}.product-form label input,.product-form label textarea,.product-form label select{display:block;margin-top:6px;font-weight:400}.form-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.btn.secondary{background:#e8eee8;color:var(--green)}.btn.secondary:hover{background:#dce8dc}.notice{line-height:1.55}
+@media(max-width:650px){.search-row{flex-direction:column}.product-results{grid-template-columns:1fr}.product-results-head{align-items:flex-start;flex-direction:column}.product-search-panel{padding:18px}.form-actions .btn{width:100%}}
+</style>
+
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#inicio"><span class="brand-mark">✳</span><span>Escudo Kids<small>INFORMAÇÃO QUE CUIDA</small></span></a>
+    <nav class="navlinks" id="navlinks">
+      <a href="#aprender">Aprender</a><a href="#familia">Para famílias</a><a href="#quiz">Quiz</a><a href="#produtos">Pesquisar</a><a href="#fontes">Fontes</a>
+    </nav>
+    <a class="nav-cta" href="#aprender">Explorar conteúdos ↗</a>
+    <button class="menu" id="menu" aria-label="Abrir menu">☰</button>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="inicio">
+ <div class="wrap hero-grid">
+  <div>
+   <span class="eyebrow">Saúde infantil • informação • prevenção</span>
+   <h1>Conhecimento hoje,<br><em>saúde para o futuro.</em></h1>
+   <p>Um espaço para entender como o ambiente, os hábitos e as substâncias presentes no cotidiano são estudados em relação à saúde e ao desenvolvimento infantil.</p>
+   <div class="hero-actions"><a class="btn" href="#aprender">Começar a explorar <span>→</span></a><a class="btn secondary" href="#familia">Dicas para o dia a dia</a></div>
+   <div class="hero-note">✦ Conteúdo educativo baseado em fontes de informação verificáveis.</div>
+  </div>
+  <div class="hero-art" aria-label="Ilustração decorativa de natureza">
+   <div class="orb"></div><div class="sun"></div><div class="plant">🌿</div>
+   <div class="hero-card"><div class="leaf">🌱</div><h3>Pequenos hábitos, grandes cuidados.</h3><p>Informação clara para apoiar escolhas conscientes no dia a dia da família.</p><div class="mini-pills"><span>Aprender</span><span>Prevenir</span><span>Cuidar</span></div></div>
+  </div>
+ </div>
+</section>
+
+<div class="trust-strip"><div class="wrap trust-grid">
+ <div class="trust-item"><span class="trust-icon">🔎</span><div><b>Informação acessível</b><small>Ciência explicada em linguagem simples</small></div></div>
+ <div class="trust-item"><span class="trust-icon">🌿</span><div><b>Prevenção consciente</b><small>Cuidados possíveis na rotina familiar</small></div></div>
+ <div class="trust-item"><span class="trust-icon">📚</span><div><b>Fontes consultáveis</b><small>Conheça de onde vêm as informações</small></div></div>
+</div></div>
+
+<section id="aprender">
+ <div class="wrap">
+  <div class="section-head"><span class="eyebrow">Explore o Escudo Kids</span><h2>Informação para cuidar em cada etapa.</h2><p>Conheça os temas que conectam ambiente, hábitos e saúde infantil. Selecione uma área para começar.</p></div>
+  <div class="cards">
+   <article class="topic-card"><div class="topic-icon">🧬</div><h3>Desreguladores endócrinos</h3><p>Entenda o que são essas substâncias, onde podem estar presentes e o que a ciência investiga.</p><a class="text-link" href="#desreguladores">Conhecer o tema →</a></article>
+   <article class="topic-card"><div class="topic-icon">🥦</div><h3>Alimentação saudável</h3><p>Ideias simples para refeições, lanches e escolhas alimentares no cotidiano.</p><a class="text-link" href="#alimentacao">Ver orientações →</a></article>
+   <article class="topic-card"><div class="topic-icon">📏</div><h3>Desenvolvimento infantil</h3><p>Saiba por que crescimento, sono, movimento e consultas de rotina importam.</p><a class="text-link" href="#desenvolvimento">Explorar →</a></article>
+   <article class="topic-card"><div class="topic-icon">🏡</div><h3>Casa mais segura</h3><p>Cuidados com produtos de limpeza, cosméticos, embalagens e armazenamento.</p><a class="text-link" href="#casa">Ver cuidados →</a></article>
+  </div>
+ </div>
+</section>
+
+<section class="feature" id="desreguladores">
+ <div class="wrap feature-grid">
+  <div class="feature-visual"><span class="big-icon">🌱</span><span class="floating one">🧪 Ambiente e saúde</span><span class="floating two">📖 Ciência em linguagem simples</span></div>
+  <div class="feature-copy"><span class="eyebrow">Aprenda</span><h2>O que são desreguladores endócrinos?</h2><p>São substâncias químicas que podem interferir no funcionamento do sistema endócrino. Elas são estudadas por sua possível relação com diferentes processos do organismo, inclusive o metabolismo e o desenvolvimento.</p><p>O Escudo Kids busca apresentar o que é conhecido, o que ainda está em investigação e quais são os limites das evidências.</p>
+   <ul class="check-list"><li>Conheça exemplos e possíveis fontes de exposição.</li><li>Entenda o que são obesogênios e por que são estudados.</li><li>Diferencie associação observada, hipótese e causa comprovada.</li></ul>
+   <a class="btn" href="#mitos">Mitos e verdades →</a>
+  </div>
+ </div>
+</section>
+
+<section id="alimentacao">
+ <div class="wrap">
+  <div class="section-head center"><span class="eyebrow">Hábitos saudáveis</span><h2>Alimentação possível no dia a dia.</h2><p>Orientações educativas para apoiar uma rotina variada e equilibrada, respeitando as necessidades de cada criança.</p></div>
+  <div class="split">
+   <div class="info-panel"><div class="symbol">🍎</div><h3>Mais alimentos in natura</h3><p>Frutas, legumes e verduras podem fazer parte das refeições e dos lanches de diferentes maneiras. Variedade e acesso importam.</p></div>
+   <div class="info-panel tinted"><div class="symbol">🥤</div><h3>Atenção às bebidas açucaradas</h3><p>Água é uma opção importante para a hidratação. O consumo frequente de bebidas açucaradas merece atenção nas orientações alimentares.</p></div>
+  </div>
+  <p class="notice">As sugestões são gerais e educativas. Necessidades alimentares específicas devem ser avaliadas por profissionais habilitados.</p>
+ </div>
+</section>
+
+<section class="feature" id="desenvolvimento">
+ <div class="wrap feature-grid">
+  <div class="feature-copy"><span class="eyebrow">Crescer e se desenvolver</span><h2>Cada criança tem seu próprio percurso.</h2><p>O acompanhamento do crescimento e do desenvolvimento faz parte do cuidado integral à saúde da criança.</p><ul class="check-list"><li>Acompanhamento de peso e altura por profissionais de saúde.</li><li>Importância do sono e da atividade física adequada à idade.</li><li>Consultas de rotina e acompanhamento na unidade de saúde.</li></ul><p class="notice">As curvas de crescimento devem seguir padrões reconhecidos, como os da OMS, e não substituem a avaliação profissional.</p></div>
+  <div class="feature-visual"><span class="big-icon">🧸</span><span class="floating one">💚 Cuidado sem julgamentos</span><span class="floating two">🌞 Brincar também é saúde</span></div>
+ </div>
+</section>
+
+<section id="casa">
+ <div class="wrap">
+  <div class="section-head"><span class="eyebrow">Prevenção em casa</span><h2>Pequenos cuidados que fazem diferença.</h2><p>Algumas atitudes podem ajudar a reduzir exposições evitáveis e tornar o ambiente doméstico mais seguro.</p></div>
+  <div class="cards">
+   <article class="topic-card"><div class="topic-icon">🧴</div><h3>Cosméticos</h3><p>Leia rótulos e siga as instruções de uso e faixa etária indicadas pelo fabricante.</p></article>
+   <article class="topic-card"><div class="topic-icon">🧽</div><h3>Produtos de limpeza</h3><p>Mantenha os produtos nas embalagens originais e fora do alcance das crianças.</p></article>
+   <article class="topic-card"><div class="topic-icon">🍱</div><h3>Embalagens</h3><p>Respeite as orientações de uso dos recipientes e evite aquecer embalagens não indicadas para isso.</p></article>
+   <article class="topic-card"><div class="topic-icon">🍓</div><h3>Higienização</h3><p>Higienize corretamente frutas, verduras e legumes conforme orientações de saúde.</p></article>
+  </div>
+ </div>
+</section>
+
+<section class="quiz-section" id="quiz">
+ <div class="wrap">
+  <div class="section-head center"><span class="eyebrow">Interativo</span><h2>Quiz: sua casa está mais segura?</h2><p>Responda às perguntas e receba orientações educativas. Não é uma avaliação individual de risco.</p></div>
+  <div class="quiz-box">
+   <div class="quiz-top"><b>Cuidados no dia a dia</b><small id="qcount">Pergunta 1 de 3</small></div>
+   <div class="progress"><span id="bar"></span></div>
+   <div id="quizbody"><p class="question" id="question"></p><div class="answers" id="answers"></div><div class="quiz-controls"><button class="btn secondary" id="back" disabled>Voltar</button><button class="btn" id="next" disabled>Próxima →</button></div></div>
+   <div class="quiz-result" id="result"><strong>Seu próximo passo</strong><span id="resulttext"></span><div style="margin-top:14px"><button class="btn" id="restart">Refazer quiz</button></div></div>
+   <p class="notice">O resultado apresenta sugestões gerais e não determina se uma casa ou pessoa está livre de riscos.</p>
+  </div>
+ </div>
+</section>
+
+<section id="mitos">
+ <div class="wrap">
+  <div class="section-head"><span class="eyebrow">Informação responsável</span><h2>Mitos e verdades: vamos conversar?</h2><p>Abra cada pergunta para ler uma explicação inicial. O conteúdo científico completo deve ser acompanhado de referências verificadas.</p></div>
+  <div class="faq">
+   <details><summary>Todo plástico libera substâncias prejudiciais?</summary><p>Não é correto generalizar. Os materiais plásticos são diferentes entre si e o uso deve respeitar as indicações do fabricante, especialmente em situações de aquecimento e contato com alimentos.</p></details>
+   <details><summary>Todo produto com BPA causa obesidade?</summary><p>Não. A presença de uma substância não permite afirmar, por si só, que um produto cause obesidade. É necessário considerar evidências, exposição e contexto.</p></details>
+   <details><summary>Desreguladores endócrinos podem interferir no metabolismo?</summary><p>Essa é uma área de investigação científica. O Escudo Kids deve diferenciar evidências estabelecidas, associações observadas e hipóteses ainda em estudo.</p></details>
+   <details><summary>Crianças podem ser mais vulneráveis a determinadas exposições?</summary><p>O desenvolvimento infantil é uma fase importante e a exposição a agentes ambientais é tema de atenção em saúde pública. A avaliação depende da substância, dose, via e período de exposição.</p></details>
+  </div>
+ </div>
+</section>
+
+<section id="produtos">
+ <div class="wrap">
+  <div class="section-head">
+   <span class="eyebrow">Consulta de produtos</span>
+   <h2>Pesquise pelo nome ou ingrediente.</h2>
+   <p>Consulte os registros cadastrados no Escudo Kids. As cores indicam o nível de atenção atribuído aos ingredientes avaliados, conforme as fontes registradas — não são um diagnóstico nem uma garantia de segurança.</p>
+  </div>
+  <div class="product-search-panel">
+   <label class="search-label" for="productSearch">O que você quer pesquisar?</label>
+   <div class="search-row"><input id="productSearch" type="search" placeholder="Ex.: nome do produto ou ingrediente" autocomplete="off"><button class="btn" id="searchProducts" type="button">Pesquisar</button></div>
+   <div class="search-help">A pesquisa procura tanto no nome do produto quanto nos ingredientes cadastrados.</div>
+   <div class="legend" aria-label="Legenda das classificações">
+    <span class="status-pill green">Verde · menor preocupação identificada</span>
+    <span class="status-pill yellow">Amarelo · atenção / evidência limitada</span>
+    <span class="status-pill red">Vermelho · maior preocupação identificada</span>
+    <span class="status-pill gray">Cinza · ainda não avaliado</span>
+   </div>
+  </div>
+  <div class="product-results-head"><h3 id="resultsTitle">Produtos cadastrados</h3><button class="text-link add-product-toggle" id="toggleProductForm" type="button">＋ Área de cadastro</button></div>
+  <div id="databaseMessage" class="empty-state" style="margin-bottom:16px">Conectando à base compartilhada...</div>
+  <div id="adminPanel" class="product-form" hidden><h3>Acesso administrativo</h3><p class="form-note">Somente o e-mail autorizado pelo administrador do banco poderá cadastrar produtos. Informe seu e-mail para receber um link de acesso.</p><label>E-mail autorizado<input id="adminEmail" type="email" autocomplete="email" placeholder="seuemail@exemplo.com"></label><div class="form-actions"><button class="btn" id="sendLoginLink" type="button">Enviar link de acesso</button><button class="btn secondary" id="logoutAdmin" type="button" hidden>Sair</button></div><p id="authMessage" class="form-note" aria-live="polite"></p></div>
+  <div id="productResults" class="product-results" aria-live="polite"><div class="empty-state">Ainda não há produtos cadastrados. Use “Cadastrar produto” para adicionar o primeiro registro.</div></div>
+  <form id="productForm" class="product-form" hidden>
+   <h3>Cadastrar produto</h3>
+   <p class="form-note">Preencha com informações conferidas no rótulo e em fontes confiáveis. O cadastro será compartilhado com todos os visitantes após ser salvo na base online.</p>
+   <label>Nome do produto<input id="newProductName" required maxlength="120" placeholder="Nome que aparece na embalagem"></label>
+   <label>Categoria<input id="newProductCategory" maxlength="80" placeholder="Ex.: cosmético, alimento, limpeza"></label>
+   <label>Ingredientes / composição<textarea id="newProductIngredients" required rows="3" placeholder="Separe os ingredientes por vírgula"></textarea></label>
+   <label>Classificação do registro<select id="newProductStatus" required><option value="unassessed">Ainda não avaliado</option><option value="green">Verde — menor preocupação identificada</option><option value="yellow">Amarelo — atenção / evidência limitada</option><option value="red">Vermelho — maior preocupação identificada</option></select></label>
+   <label>Justificativa da avaliação<textarea id="newProductReason" rows="3" placeholder="Explique o que foi avaliado e os limites da informação"></textarea></label>
+   <label>Fonte científica ou regulatória (link)<input id="newProductSource" type="url" placeholder="https://..."></label>
+   <div class="form-actions"><button class="btn" type="submit">Salvar na base compartilhada</button><button class="btn secondary" id="cancelProductForm" type="button">Cancelar</button></div>
+  </form>
+  <p class="notice">Importante: uma cor não significa que um produto seja simplesmente “bom” ou “ruim”. A avaliação depende da substância, concentração, via e frequência de exposição, finalidade de uso e qualidade das evidências. A presença de um ingrediente, isoladamente, não comprova dano.</p>
+ </div>
+</section>
+
+<section class="sources" id="fontes">
+ <div class="wrap">
+  <div class="section-head"><span class="eyebrow">Biblioteca científica</span><h2>Informação com origem.</h2><p>O projeto prevê reunir materiais de instituições de saúde e pesquisa. Consulte as fontes originais para aprofundar o tema.</p></div>
+  <div class="source-list">
+   <a class="source" href="https://www.who.int/" target="_blank" rel="noopener"><b>Organização Mundial da Saúde</b><span>Saúde, crescimento e desenvolvimento infantil ↗</span></a>
+   <a class="source" href="https://portal.fiocruz.br/" target="_blank" rel="noopener"><b>Fiocruz</b><span>Pesquisa e materiais de saúde pública ↗</span></a>
+   <a class="source" href="https://www.gov.br/saude/" target="_blank" rel="noopener"><b>Ministério da Saúde</b><span>Saúde da criança e alimentação ↗</span></a>
+   <a class="source" href="https://www.unep.org/" target="_blank" rel="noopener"><b>PNUMA</b><span>Substâncias químicas e meio ambiente ↗</span></a>
+  </div>
+ </div>
+</section>
+
+<section id="familia">
+ <div class="wrap">
+  <div class="section-head center"><span class="eyebrow">Para famílias e cuidadores</span><h2>Cuidar também é buscar orientação.</h2><p>Em caso de dúvidas sobre alimentação, crescimento ou saúde da criança, converse com a equipe da unidade de saúde ou com o pediatra.</p></div>
+  <div class="split">
+   <div class="info-panel"><div class="symbol">👨‍👩‍👧</div><h3>Orientação para responsáveis</h3><p>Informações para conversar sobre hábitos saudáveis sem culpa, constrangimento ou comparações entre crianças.</p></div>
+   <div class="info-panel tinted"><div class="symbol">🩺</div><h3>Para estudantes e profissionais</h3><p>O projeto também prevê materiais educativos para ações em UBS, escolas e comunidades.</p></div>
+  </div>
+ </div>
+</section>
+</main>
+
+<footer>
+ <div class="wrap">
+  <div class="footer-grid"><div><div class="footer-brand">✳ Escudo Kids</div><div style="font-size:.7rem;letter-spacing:1.4px;color:#c4d3c5">INFORMAÇÃO QUE CUIDA</div></div><p>Projeto acadêmico de educação em saúde infantil. Informação para apoiar a conscientização e a prevenção, com respeito às evidências científicas e aos limites de uma ferramenta educativa.</p></div>
+  <div class="footer-bottom"><span>© 2026 Escudo Kids • Protótipo acadêmico</span><span>Este site não substitui avaliação ou acompanhamento profissional.</span></div>
+ </div>
+</footer>
+<script>
+const questions=[
+ {q:"Você mantém produtos de limpeza fora do alcance das crianças?",a:["Sim, guardados em local fechado ou alto.","Às vezes, depende do produto.","Não, ficam acessíveis."],tip:"Guarde produtos de limpeza em suas embalagens originais, bem fechados e fora do alcance das crianças."},
+ {q:"Você confere as instruções de uso das embalagens antes de aquecer alimentos?",a:["Sim, sempre verifico se o recipiente é adequado.","Nem sempre verifico.","Costumo usar qualquer recipiente."],tip:"Use recipientes apenas nas condições indicadas pelo fabricante. Nem toda embalagem é própria para aquecimento."},
+ {q:"Você costuma ler os rótulos e as orientações de cosméticos e produtos infantis?",a:["Sim, observo composição, indicação e modo de uso.","Às vezes.","Ainda não tenho esse hábito."],tip:"Observe a indicação de faixa etária, modo de uso, advertências e informações do rótulo."}
+];
+let current=0,answers=[];
+const q=document.getElementById("question"),a=document.getElementById("answers"),next=document.getElementById("next"),back=document.getElementById("back"),bar=document.getElementById("bar"),count=document.getElementById("qcount");
+function render(){let item=questions[current];q.textContent=item.q;a.innerHTML="";item.a.forEach((v,i)=>{let b=document.createElement("button");b.className="answer"+(answers[current]===i?" selected":"");b.textContent=v;b.onclick=()=>{answers[current]=i;render()};a.appendChild(b)});count.textContent=`Pergunta ${current+1} de ${questions.length}`;bar.style.width=((current)/questions.length*100)+"%";back.disabled=current===0;next.disabled=answers[current]===undefined;next.textContent=current===questions.length-1?"Ver orientações":"Próxima →"}
+next.onclick=()=>{if(current<questions.length-1){current++;render()}else{document.getElementById("quizbody").style.display="none";document.getElementById("result").style.display="block";bar.style.width="100%";let weakest=answers.indexOf(2);if(weakest<0)weakest=answers.indexOf(1);document.getElementById("resulttext").textContent=weakest<0?"Você indicou bons hábitos nas três situações. Continue acompanhando as orientações dos rótulos e mantenha os cuidados no dia a dia.":questions[weakest].tip}};
+back.onclick=()=>{if(current>0){current--;render()}};
+document.getElementById("restart").onclick=()=>{current=0;answers=[];document.getElementById("quizbody").style.display="block";document.getElementById("result").style.display="none";render()};
+render();
+document.getElementById("menu").onclick=()=>document.getElementById("navlinks").classList.toggle("open");
+document.querySelectorAll("#navlinks a").forEach(link=>link.addEventListener("click",()=>document.getElementById("navlinks").classList.remove("open")));
+
+// BASE COMPARTILHADA — Supabase
+// Depois de criar o projeto Supabase, cole aqui a URL e a chave anon/public.
+// NUNCA coloque a chave service_role neste arquivo.
+const SUPABASE_URL = "https://ynpnwnzcilrlhugnfosl.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_ZqPfv2Uk805S5OADRJRbsg_2skIUf2x";
+
+const productResults = document.getElementById("productResults");
+const productSearch = document.getElementById("productSearch");
+const productForm = document.getElementById("productForm");
+const adminPanel = document.getElementById("adminPanel");
+const databaseMessage = document.getElementById("databaseMessage");
+const authMessage = document.getElementById("authMessage");
+const statusInfo = {
+ green:{label:"Verde · menor preocupação identificada",cls:"green"},
+ yellow:{label:"Amarelo · atenção / evidência limitada",cls:"yellow"},
+ red:{label:"Vermelho · maior preocupação identificada",cls:"red"},
+ unassessed:{label:"Cinza · ainda não avaliado",cls:"gray"}
+};
+let db = null;
+let currentAdmin = null;
+function normalizeText(value){return String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()}
+function setDbMessage(message, isError=false){databaseMessage.textContent=message;databaseMessage.style.borderColor=isError?"#d88":"";databaseMessage.style.color=isError?"#9b2924":""}
+function escapeLike(value){return String(value).replace(/[%,()]/g," ").trim()}
+function showProductCard(p){
+ const status=statusInfo[p.status]||statusInfo.unassessed;
+ const card=document.createElement("article");card.className="product-card";
+ const title=document.createElement("h4");title.textContent=p.name;card.appendChild(title);
+ const badge=document.createElement("span");badge.className=`status-pill ${status.cls}`;badge.textContent=status.label;card.appendChild(badge);
+ if(p.category){const cat=document.createElement("p");cat.textContent="Categoria: "+p.category;card.appendChild(cat)}
+ if(p.ingredients){const ingredients=document.createElement("p");ingredients.textContent="Composição cadastrada: "+p.ingredients;card.appendChild(ingredients)}
+ if(p.reason){const reason=document.createElement("p");reason.textContent="Justificativa: "+p.reason;card.appendChild(reason)}
+ if(p.source){const source=document.createElement("a");source.href=p.source;source.target="_blank";source.rel="noopener noreferrer";source.textContent="Consultar fonte informada ↗";card.appendChild(source)}
+ productResults.appendChild(card);
+}
+async function renderProducts(term=""){
+ if(!db){productResults.innerHTML='<div class="empty-state">A base compartilhada ainda não foi conectada. O administrador precisa concluir a configuração do banco de dados.</div>';return}
+ productResults.innerHTML='<div class="empty-state">Buscando produtos na base compartilhada...</div>';
+ let request=db.from("products").select("id,name,category,ingredients,status,reason,source,created_at").order("name",{ascending:true}).limit(100);
+ const query=escapeLike(term);
+ if(query) request=request.or(`name.ilike.%${query}%,category.ilike.%${query}%,ingredients.ilike.%${query}%`);
+ const {data,error}=await request;
+ if(error){productResults.innerHTML='<div class="empty-state">Não foi possível consultar a base. Verifique a configuração e as permissões do banco.</div>';setDbMessage("Erro ao consultar a base compartilhada: "+error.message,true);return}
+ document.getElementById("resultsTitle").textContent=query?`Resultados da pesquisa (${data.length})`:`Produtos cadastrados (${data.length})`;
+ productResults.innerHTML="";
+ if(!data.length){productResults.innerHTML=`<div class="empty-state">${query?"Nenhum produto encontrado com esse termo.":"Ainda não há produtos cadastrados na base compartilhada."}</div>`;return}
+ data.forEach(showProductCard);
+}
+function updateAdminUI(session){
+ currentAdmin=session?.user||null;
+ const authorized=!!currentAdmin;
+ adminPanel.hidden=!adminPanel.dataset.open;
+ document.getElementById("logoutAdmin").hidden=!authorized;
+ document.getElementById("sendLoginLink").hidden=authorized;
+ document.getElementById("adminEmail").hidden=authorized;
+ authMessage.textContent=authorized?`Acesso conectado como ${currentAdmin.email}. Se o e-mail estiver autorizado nas regras do banco, você poderá cadastrar.`:"";
+ productForm.hidden=!(authorized && adminPanel.dataset.open === "true");
+}
+async function initSharedDatabase(){
+ if(!window.supabase||SUPABASE_URL.startsWith("COLE_")||SUPABASE_ANON_KEY.startsWith("COLE_")){
+  setDbMessage("A base compartilhada ainda precisa ser configurada pelo administrador no Supabase.");
+  productResults.innerHTML='<div class="empty-state">A pesquisa compartilhada será ativada assim que o banco online for configurado.</div>';
+  return;
+ }
+ db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+ const {data:{session}}=await db.auth.getSession();updateAdminUI(session);
+ db.auth.onAuthStateChange((_event,newSession)=>{updateAdminUI(newSession);if(newSession)setDbMessage("Você entrou na área administrativa. A permissão para cadastrar depende do e-mail autorizado no banco.");});
+ setDbMessage("Conectado à base compartilhada.");
+ await renderProducts();
+}
+document.getElementById("searchProducts").addEventListener("click",()=>renderProducts(productSearch.value));
+productSearch.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();renderProducts(productSearch.value)}});
+document.getElementById("toggleProductForm").addEventListener("click",()=>{
+ adminPanel.dataset.open=adminPanel.hidden?"true":"false";
+ adminPanel.hidden=!adminPanel.hidden;
+ if(!adminPanel.hidden&&currentAdmin){productForm.hidden=false;document.getElementById("newProductName").focus()}
+ else if(!adminPanel.hidden){productForm.hidden=true;document.getElementById("adminEmail").focus()}
+});
+document.getElementById("sendLoginLink").addEventListener("click",async()=>{
+ if(!db){authMessage.textContent="A base ainda não está configurada.";return}
+ const email=document.getElementById("adminEmail").value.trim();
+ if(!email){authMessage.textContent="Digite o e-mail administrativo.";return}
+ authMessage.textContent="Enviando link de acesso...";
+ const {error}=await db.auth.signInWithOtp({email,options:{emailRedirectTo:window.location.origin}});
+ authMessage.textContent=error?"Não foi possível enviar: "+error.message:"Enviamos um link de acesso para seu e-mail. Abra a mensagem neste mesmo navegador para entrar.";
+});
+document.getElementById("logoutAdmin").addEventListener("click",async()=>{if(db)await db.auth.signOut();productForm.hidden=true;authMessage.textContent="Você saiu da área administrativa."});
+document.getElementById("cancelProductForm").addEventListener("click",()=>{productForm.reset();productForm.hidden=true});
+productForm.addEventListener("submit",async e=>{
+ e.preventDefault();
+ if(!db||!currentAdmin){authMessage.textContent="Entre com o e-mail administrativo antes de cadastrar.";return}
+ const item={name:document.getElementById("newProductName").value.trim(),category:document.getElementById("newProductCategory").value.trim(),ingredients:document.getElementById("newProductIngredients").value.trim(),status:document.getElementById("newProductStatus").value,reason:document.getElementById("newProductReason").value.trim(),source:document.getElementById("newProductSource").value.trim(),is_published:true,created_by:currentAdmin.id};
+ const submit=productForm.querySelector('button[type="submit"]');submit.disabled=true;submit.textContent="Salvando...";
+ const {error}=await db.from("products").insert(item);
+ submit.disabled=false;submit.textContent="Salvar na base compartilhada";
+ if(error){authMessage.textContent="Não foi possível salvar. Confira se seu e-mail está autorizado no banco. Detalhe: "+error.message;return}
+ productForm.reset();productForm.hidden=true;productSearch.value="";setDbMessage("Produto cadastrado na base compartilhada.");await renderProducts();
+});
+initSharedDatabase();
+
+</script>
+</body>
+</html>
